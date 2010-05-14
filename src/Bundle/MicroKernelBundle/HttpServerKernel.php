@@ -1,10 +1,10 @@
 <?php
 
-require_once __DIR__.'/autoload.php';
+namespace Bundle\MicroKernelBundle;
 
 use Symfony\Foundation\Kernel,
-    Symfony\Components\DependencyInjection\Loader\YamlFileLoader as ContainerLoader,
-    Symfony\Components\Routing\Loader\YamlFileLoader as RoutingLoader,
+    Symfony\Components\DependencyInjection\BuilderConfiguration,
+	Symfony\Components\DependencyInjection\Loader\YamlFileLoader as ContainerLoader,
     Symfony\Foundation\Bundle\Bundle,
     Symfony\Components\Routing\RouteCollection,
     Symfony\Components\Routing\Route;
@@ -28,6 +28,7 @@ class HttpServerKernel extends Kernel
     private $_bundles = array();
     private $_bundleDirs = array();
     private $_routeCollection;
+	private $_callbacks = array();
 
     public function __construct($environment, $debug)
     {
@@ -48,14 +49,17 @@ class HttpServerKernel extends Kernel
         return $this->_rootDir;
     }
 
-    public function addBundle(Bundle $budle)
+    public function addBundle($bundle)
     {
         $this->_bundles[] = $bundle;
     }
 
     public function registerBundles()
     {
-        return array_merge(array(new Bundle\MicroKernelBundle\Bundle()), $this->_bundles);
+		foreach ($this->_bundles as &$bundle) {
+			$bundle = new $bundle;
+		}
+        return array_merge($this->_bundles, array(new \Bundle\MicroKernelBundle\Bundle()));
     }
     
     public function setBundleDir($bundle, $dir)
@@ -73,17 +77,17 @@ class HttpServerKernel extends Kernel
 
     public function setConfigPath($file)
     {
-        if(!is_file($dir)) {
-            throw new InvalidArgumentException($file . ' is not a valid file');
+        if(!is_file($file)) {
+            throw new \InvalidArgumentException($file . ' is not a valid file');
         }
         $this->_configPath = $file;
     }
 
     public function registerContainerConfiguration()
     {
-        $loader = new ContainerLoader($this->getBundleDirs());
+		$loader = new ContainerLoader($this->getBundleDirs());
 
-        return $loader->load($this->_configPath);
+		return $loader->load($this->_configPath);
     }
 
     public function registerRoutes()
@@ -160,9 +164,19 @@ class HttpServerKernel extends Kernel
         if (!is_callable($callback)) {
             throw new InvalidArgumentException('the function callback must be callable');
         }
-        $defaults['_callback'] = $callback;
+		$this->_callbacks[$name] = $callback;
+        $defaults['_callback'] = $name;
         $options = isset($config['options']) ? $config['options'] : array();
         $route = new Route($pattern, $defaults, $requirements, $options);
         $collection->addRoute($name, $route);
     }
+
+	public function getCallback($name) {
+		if (!isset ($this->_callbacks[$name])) {
+			throw new \InvalidArgumentException(sprintf(
+				'specified callback %s doesnt exist', $name
+			));
+		}
+		return $this->_callbacks[$name];
+	}
 }
