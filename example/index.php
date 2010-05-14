@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__.'/../src/Bundle/HttpServerBundle/HttpServerKernel.php';
+require_once __DIR__.'/../src/Bundle/MicroKernelBundle/HttpServerKernel.php';
 
 $kernel = new HttpServerKernel('prod', false);
 

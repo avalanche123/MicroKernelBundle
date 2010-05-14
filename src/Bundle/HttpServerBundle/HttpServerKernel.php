@@ -55,7 +55,7 @@ class HttpServerKernel extends Kernel
 
     public function registerBundles()
     {
-        return array_merge(array(new Bundle\HttpServerBundle\Bundle()), $this->_bundles);
+        return array_merge(array(new Bundle\MicroKernelBundle\Bundle()), $this->_bundles);
     }
     
     public function setBundleDir($bundle, $dir)
@@ -68,7 +68,7 @@ class HttpServerKernel extends Kernel
 
     public function registerBundleDirs()
     {
-        return array_merge(array('Bundle\HttpServerBundle' => __DIR__), $this->_bundleDirs);
+        return array_merge(array('Bundle\MicroKernelBundle' => __DIR__), $this->_bundleDirs);
     }
 
     public function setConfigPath($file)

@@ -1,6 +1,6 @@
 <?php
 
-namespace Bundle\HttpServerBundle;
+namespace Bundle\MicroKernelBundle;
 
 use Symfony\Foundation\Bundle\Bundle as BaseBundle;
 use Symfony\Components\DependencyInjection\ContainerInterface;
@@ -24,7 +24,7 @@ class Bundle extends BaseBundle
 {
     public function buildContainer(ContainerInterface $container)
     {
-        $listenerDefinition = new Definition('Bundle\\HttpServerBundle\\Listeners\\CallbackLoader', array(
+        $listenerDefinition = new Definition('Bundle\\MicroKernelBundle\\Listeners\\CallbackLoader', array(
             new Reference('%service_container%'),
             new Reference('%logger%', \Symfony\Components\DependencyInjection\Container::IGNORE_ON_INVALID_REFERENCE),
         ));
