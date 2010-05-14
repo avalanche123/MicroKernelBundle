@@ -8,6 +8,7 @@ use Symfony\Components\DependencyInjection\Loader\Loader;
 use Bundle\TwigBundle\DependencyInjection\TwigExtension;
 use Symfony\Components\DependencyInjection\Definition;
 use Symfony\Components\DependencyInjection\Reference;
+use Symfony\Components\Console\Application;
 
 /* 
  * This file is property of Bulat Shakirzyanov
@@ -43,4 +44,9 @@ class Bundle extends BaseBundle
         ));
         $container->setDefinition('response_loader', $responseLoader);
     }
+
+	public function registerCommands(Application $application)
+	{
+		$application->addCommand(new Command\ServerCommand());
+	}
 }

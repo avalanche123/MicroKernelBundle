@@ -30,7 +30,7 @@ class HttpServerKernel extends Kernel
     private $_routeCollection;
     private $_callbacks = array();
 
-    public function __construct($environment, $debug)
+    public function __construct($environment, $debug, $recheckRoutes = true)
     {
         parent::__construct($environment, $debug);
         $this->_routeCollection = new RouteCollection();
@@ -56,9 +56,7 @@ class HttpServerKernel extends Kernel
 
     public function registerBundles()
     {
-        foreach ($this->_bundles as &$bundle) {
-            $bundle = new $bundle;
-        }
+		array_walk($this->_bundles, function(&$b) { $b = new $b(); });
         return array_merge($this->_bundles, array(new \Bundle\MicroKernelBundle\Bundle()));
     }
     
