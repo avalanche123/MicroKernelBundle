@@ -32,13 +32,13 @@ class ResponseLoader {
         $this->container->getEventDispatcherService()->connect('core.controller', array($this, 'resolve'));
     }
 
-	public function resolve(Event $event)
-	{
-		$callback = $event->getParameter('controller');
-		$args = $event->getParameter('arguments');
-		$response = call_user_func_array($callback, $args);
-		$response = new Response($response);
-		$event->setReturnValue($response);
-		return true;
-	}
+    public function resolve(Event $event)
+    {
+        $callback = $event->getParameter('controller');
+        $args = $event->getParameter('arguments');
+        $response = call_user_func_array($callback, $args);
+        $response = new Response($response);
+        $event->setReturnValue($response);
+        return true;
+    }
 }

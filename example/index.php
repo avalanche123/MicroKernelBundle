@@ -13,7 +13,7 @@ use Symfony\Components\DependencyInjection\Container;
 use Symfony\Components\HttpKernel\Request;
 use Bundle\MicroKernelBundle\HttpServerKernel;
 
-$kernel = new HttpServerKernel('prod', true);
+$kernel = new HttpServerKernel('dev', true);
 $kernel->setConfigPath('config/config_prod.yml');
 $kernel->addBundle('Symfony\Foundation\Bundle\KernelBundle');
 $kernel->addBundle('Symfony\Framework\WebBundle\Bundle');
@@ -27,4 +27,9 @@ $kernel->get('user_greeting', '/user/:username',
     return 'Hello ' . $username;
   }, array('username' => 'Bulat'));
 
-echo $kernel->handle(null);
+$kernel->get('form', '/login',
+  function(Request $request, Container $container) {
+    return '<form><button>login</button></form>';
+  });
+
+echo $kernel->handle();

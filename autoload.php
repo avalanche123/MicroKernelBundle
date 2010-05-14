@@ -8,12 +8,12 @@ use Symfony\Foundation\UniversalClassLoader;
 
 $loader = new UniversalClassLoader();
 $loader->registerNamespaces(array(
-  'Symfony'						=> DIR,
-  'Bundle\MicroKernelBundle'	=> __DIR__ . '/src',
+  'Symfony'                        => DIR,
+  'Bundle\MicroKernelBundle'    => __DIR__ . '/src',
 ));
 $loader->registerPrefixes(array(
-	'Swift_'		=> DIR . '/../../../vendor/swiftmailer/lib/classes',
-	'Zend_'			=> DIR . '/../../../vendor/zend/library',
+    'Swift_'        => DIR . '/../../../vendor/swiftmailer/lib/classes',
+    'Zend_'            => DIR . '/../../../vendor/zend/library',
 ));
 $loader->register();
 

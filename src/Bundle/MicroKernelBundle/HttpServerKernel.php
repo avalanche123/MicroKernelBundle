@@ -4,7 +4,7 @@ namespace Bundle\MicroKernelBundle;
 
 use Symfony\Foundation\Kernel,
     Symfony\Components\DependencyInjection\BuilderConfiguration,
-	Symfony\Components\DependencyInjection\Loader\YamlFileLoader as ContainerLoader,
+    Symfony\Components\DependencyInjection\Loader\YamlFileLoader as ContainerLoader,
     Symfony\Foundation\Bundle\Bundle,
     Symfony\Components\Routing\RouteCollection,
     Symfony\Components\Routing\Route;
@@ -28,7 +28,7 @@ class HttpServerKernel extends Kernel
     private $_bundles = array();
     private $_bundleDirs = array();
     private $_routeCollection;
-	private $_callbacks = array();
+    private $_callbacks = array();
 
     public function __construct($environment, $debug)
     {
@@ -56,9 +56,9 @@ class HttpServerKernel extends Kernel
 
     public function registerBundles()
     {
-		foreach ($this->_bundles as &$bundle) {
-			$bundle = new $bundle;
-		}
+        foreach ($this->_bundles as &$bundle) {
+            $bundle = new $bundle;
+        }
         return array_merge($this->_bundles, array(new \Bundle\MicroKernelBundle\Bundle()));
     }
     
@@ -85,9 +85,9 @@ class HttpServerKernel extends Kernel
 
     public function registerContainerConfiguration()
     {
-		$loader = new ContainerLoader($this->getBundleDirs());
+        $loader = new ContainerLoader($this->getBundleDirs());
 
-		return $loader->load($this->_configPath);
+        return $loader->load($this->_configPath);
     }
 
     public function registerRoutes()
@@ -164,19 +164,19 @@ class HttpServerKernel extends Kernel
         if (!is_callable($callback)) {
             throw new InvalidArgumentException('the function callback must be callable');
         }
-		$this->_callbacks[$name] = $callback;
+        $this->_callbacks[$name] = $callback;
         $defaults['_callback'] = $name;
         $options = isset($config['options']) ? $config['options'] : array();
         $route = new Route($pattern, $defaults, $requirements, $options);
         $collection->addRoute($name, $route);
     }
 
-	public function getCallback($name) {
-		if (!isset ($this->_callbacks[$name])) {
-			throw new \InvalidArgumentException(sprintf(
-				'specified callback %s doesnt exist', $name
-			));
-		}
-		return $this->_callbacks[$name];
-	}
+    public function getCallback($name) {
+        if (!isset ($this->_callbacks[$name])) {
+            throw new \InvalidArgumentException(sprintf(
+                'specified callback %s doesnt exist', $name
+            ));
+        }
+        return $this->_callbacks[$name];
+    }
 }

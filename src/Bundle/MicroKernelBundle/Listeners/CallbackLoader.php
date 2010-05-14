@@ -42,11 +42,11 @@ class CallbackLoader {
 
             return false;
         }
-		$callback = $this->container->getKernelService()->getCallback($callbackName);
+        $callback = $this->container->getKernelService()->getCallback($callbackName);
 
         $params = $this->getCallbackParams(new \ReflectionFunction($callback), $callbackName, $request->path->all(), $request);
 
-		$event->setProcessed(true);
+        $event->setProcessed(true);
         $event->setReturnValue(array($callback, $params));
 
         return true;
@@ -59,11 +59,11 @@ class CallbackLoader {
     {
         $params = array();
         foreach ($r->getParameters() as $param) {
-			if ($param->getName() == 'container') {
-				$params[] = $this->container;
-			} elseif ($param->getName() == 'request') {
-				$params[] = $request;
-			} elseif (array_key_exists($param->getName(), $parameters)) {
+            if ($param->getName() == 'container') {
+                $params[] = $this->container;
+            } elseif ($param->getName() == 'request') {
+                $params[] = $request;
+            } elseif (array_key_exists($param->getName(), $parameters)) {
                 $params[] = $parameters[$param->getName()];
             } elseif ($param->isDefaultValueAvailable()) {
                 $params[] = $param->getDefaultValue();
