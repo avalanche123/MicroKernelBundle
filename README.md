@@ -87,4 +87,4 @@ processing loop takes place.
 
 Happy coding!
 
-<script src="http://gist.github.com/402995.js"></script>
+<script src="http://gist.github.com/402995.js?file=usage_advanced.php"></script>
