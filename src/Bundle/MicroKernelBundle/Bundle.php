@@ -25,28 +25,9 @@ class Bundle extends BaseBundle
 {
     public function buildContainer(ContainerInterface $container)
     {
-        $callbackLoader = new Definition('Bundle\\MicroKernelBundle\\Listeners\\CallbackLoader', array(
-            new Reference('service_container'),
-            new Reference('logger', \Symfony\Components\DependencyInjection\Container::IGNORE_ON_INVALID_REFERENCE),
-        ));
-        $callbackLoader->addAnnotation('kernel.listener', array(
-            'event'     => 'core.load_controller',
-            'method'    => 'resolve',
-        ));
-        $container->setDefinition('callback_loader', $callbackLoader);
-        $responseLoader = new Definition('Bundle\\MicroKernelBundle\\Listeners\\ResponseLoader', array(
-            new Reference('service_container'),
-            new Reference('logger', \Symfony\Components\DependencyInjection\Container::IGNORE_ON_INVALID_REFERENCE),
-        ));
-        $responseLoader->addAnnotation('kernel.listener', array(
-            'event'     => 'core.controller',
-            'method'    => 'resolve',
-        ));
-        $container->setDefinition('response_loader', $responseLoader);
     }
 
 	public function registerCommands(Application $application)
 	{
-		$application->addCommand(new Command\ServerCommand());
 	}
 }
