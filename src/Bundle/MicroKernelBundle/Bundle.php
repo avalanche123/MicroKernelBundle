@@ -27,7 +27,7 @@ class Bundle extends BaseBundle
     {
     }
 
-	public function registerCommands(Application $application)
-	{
-	}
+    public function registerCommands(Application $application)
+    {
+    }
 }
