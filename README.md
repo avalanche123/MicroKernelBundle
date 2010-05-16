@@ -86,5 +86,3 @@ processing loop takes place.
 > Note: you have to have a Kernel instance in order to use the server.
 
 Happy coding!
-
-<script src="http://gist.github.com/402995.js?file=usage_advanced.php"></script>
