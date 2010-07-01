@@ -1,5 +1,5 @@
 <?php
-namespace Bundle\MicroKernelBundle\Http;
+namespace Bundle\MicroKernelBundle;
 
 use Symfony\Foundation\Kernel;
 use Symfony\Components\HttpKernel\Request;
@@ -9,7 +9,7 @@ use Symfony\Components\Routing\Route;
 use Symfony\Components\Routing\FileResource;
 use Symfony\Components\EventDispatcher\Event;
 
-class Server {
+class MicroKernel {
     const DEFAULT_ROUTE_NAME = 'route';
 
     protected $kernel;
@@ -36,6 +36,31 @@ class Server {
         $this->router = $this->container->getRouterService();
         $this->requestParser = $this->container->getRequestParserService();
         $this->dispatcher = $this->container->getEventDispatcherService();
+    }
+
+    public function get($pattern, $callback, array $defaults = array()) {
+		$this->appendRoute('GET', $pattern, $callback, $defaults);
+        return $this;
+    }
+
+    public function post($pattern, $callback, array $defaults = array()) {
+		$this->appendRoute('POST', $pattern, $callback, $defaults);
+        return $this;
+    }
+
+    public function put($pattern, $callback, array $defaults = array()) {
+		$this->appendRoute('PUT', $pattern, $callback, $defaults);
+        return $this;
+    }
+
+    public function delete($pattern, $callback, array $defaults = array()) {
+		$this->appendRoute('DELETE', $pattern, $callback, $defaults);
+        return $this;
+    }
+
+    public function head($pattern, $callback, array $defaults = array()) {
+		$this->appendRoute('HEAD', $pattern, $callback, $defaults);
+        return $this;
     }
 
     public function run(Request $request = null)
@@ -104,56 +129,16 @@ class Server {
         }
         return $this->routeCollection;
     }
-    
-    public function get($pattern, $callback, array $defaults = array()) {
+
+	protected function appendRoute($method, $pattern, $callback, array $defaults = array())
+	{
         if (!is_callable($callback)) {
             throw new \InvalidArgumentException('$callback, must be callable');
         }
         $this->persistRoute();
         $this->lastCallback = $callback;
         $this->lastRoute = new Route($pattern, $defaults, array('_method' => 'GET'));//, array $options = array());
-        return $this;
-    }
-    
-    public function post($pattern, $callback, array $defaults = array()) {
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('$callback, must be callable');
-        }
-        $this->persistRoute();
-        $this->lastCallback = $callback;
-        $this->lastRoute = new Route($pattern, $defaults, array('_method' => 'POST'));//, array $options = array());
-        return $this;
-    }
-    
-    public function put($pattern, $callback, array $defaults = array()) {
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('$callback, must be callable');
-        }
-        $this->persistRoute();
-        $this->lastCallback = $callback;
-        $this->lastRoute = new Route($pattern, $defaults, array('_method' => 'PUT'));//, array $options = array());
-        return $this;
-    }
-    
-    public function delete($pattern, $callback, array $defaults = array()) {
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('$callback, must be callable');
-        }
-        $this->persistRoute();
-        $this->lastCallback = $callback;
-        $this->lastRoute = new Route($pattern, $defaults, array('_method' => 'DELETE'));//, array $options = array());
-        return $this;
-    }
-    
-    public function head($pattern, $callback, array $defaults = array()) {
-        if (!is_callable($callback)) {
-            throw new \InvalidArgumentException('$callback, must be callable');
-        }
-        $this->persistRoute();
-        $this->lastCallback = $callback;
-        $this->lastRoute = new Route($pattern, $defaults, array('_method' => 'HEAD'));//, array $options = array());
-        return $this;
-    }
+	}
     
     protected function persistRoute()
     {

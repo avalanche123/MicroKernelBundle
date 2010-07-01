@@ -10,7 +10,7 @@ This is a Ruby Sinatra inspired micro kernel for Symfony 2.
 
     $kernel = new MyApplicationKernel('prod', true);
 
-    $server = new Bundle\MicroKernelBundle\Http\Server($kernel);
+    $server = new Bundle\MicroKernelBundle\MicroKernel($kernel);
 
     $server->get('/', function() {
             return 'Welcome!';
@@ -78,7 +78,7 @@ You can still use your routes, that were defined in your configuration files.
 Internally, the Micro Kernel uses a technique, that adds no overhead to Symfony 2
 routing process. It is achieved by replacing the regular 'core.request' event
 listener, that is defined in the guts of the WebBundle, and replcing it with the
-one the Micro Kernel Http\Server class provides. The new listener internally uses
+one the Micro Kernel MicroKernel class provides. The new listener internally uses
 the WebBundle one. If the route is matched by the server, it stops further processing
 and executes the $callback, returning the Response, otherwise - normal request
 processing loop takes place.

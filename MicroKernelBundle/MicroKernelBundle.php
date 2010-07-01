@@ -21,13 +21,6 @@ use Symfony\Components\Console\Application;
  *
  * @author Bulat Shakirzyanov <mallluhuct@gmail.com>
  */
-class Bundle extends BaseBundle
+class MicroKernelBundle extends BaseBundle
 {
-    public function buildContainer(ContainerInterface $container)
-    {
-    }
-
-    public function registerCommands(Application $application)
-    {
-    }
 }
