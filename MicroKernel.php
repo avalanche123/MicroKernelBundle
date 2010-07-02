@@ -137,7 +137,7 @@ class MicroKernel {
         }
         $this->persistRoute();
         $this->lastCallback = $callback;
-        $this->lastRoute = new Route($pattern, $defaults, array('_method' => 'GET'));//, array $options = array());
+        $this->lastRoute = new Route($pattern, $defaults, array('_method' => $method));//, array $options = array());
 	}
     
     protected function persistRoute()
