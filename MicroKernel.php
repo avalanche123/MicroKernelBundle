@@ -39,27 +39,27 @@ class MicroKernel {
     }
 
     public function get($pattern, $callback, array $defaults = array()) {
-		$this->appendRoute('GET', $pattern, $callback, $defaults);
+        $this->appendRoute('GET', $pattern, $callback, $defaults);
         return $this;
     }
 
     public function post($pattern, $callback, array $defaults = array()) {
-		$this->appendRoute('POST', $pattern, $callback, $defaults);
+        $this->appendRoute('POST', $pattern, $callback, $defaults);
         return $this;
     }
 
     public function put($pattern, $callback, array $defaults = array()) {
-		$this->appendRoute('PUT', $pattern, $callback, $defaults);
+        $this->appendRoute('PUT', $pattern, $callback, $defaults);
         return $this;
     }
 
     public function delete($pattern, $callback, array $defaults = array()) {
-		$this->appendRoute('DELETE', $pattern, $callback, $defaults);
+        $this->appendRoute('DELETE', $pattern, $callback, $defaults);
         return $this;
     }
 
     public function head($pattern, $callback, array $defaults = array()) {
-		$this->appendRoute('HEAD', $pattern, $callback, $defaults);
+        $this->appendRoute('HEAD', $pattern, $callback, $defaults);
         return $this;
     }
 
